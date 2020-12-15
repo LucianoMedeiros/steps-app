@@ -1,20 +1,16 @@
-import { createStore, combineReducers } from "redux";
-import stepReducer from "./reducers/stepsReducers";
+import { createStore, combineReducers } from 'redux';
+import stepReducer from './reducers/stepsReducers';
+import formUserReducer from './reducers/formUserReducers';
 
 const reducers = combineReducers({
   step: stepReducer,
-  signUpFields: function (state, action) {
-    return {
-      name: null,
-      email: null,
-      zipCode: null,
-      addressNumber: null,
-      avatar: null,
-    };
-  },
+  formUser: formUserReducer,
 });
+const devTools =
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
 function storeConfig() {
-  return createStore(reducers);
+  return createStore(reducers, devTools);
 }
 
 export default storeConfig;

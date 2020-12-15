@@ -1,21 +1,50 @@
-import React from "react";
-import ButtonNext from "./components/navButtons/next";
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-const stepOne = (props) => {
-  //Precisa retornar booleano para continuar
+import ButtonNext from './components/navButtons/next';
+import Input from './components/fields/Input';
+
+import { changeUserInfo } from '../store/actions/formUserActions';
+
+const StepOne = (props) => {
+  const [cnpj, setCnpj] = useState(props.cnpj);
+  const [razaoSocial, setRazao] = useState(props.razaoSocial);
+  const changeField = ({ target: { value } }) => {
+    setCnpj(value);
+  };
+
   function customClick() {
-    console.log("uuuuuuuuu");
+    props.changeUserInfo({ cnpj, razaoSocial });
     return true;
   }
   return (
     <>
       <h2>Step 1</h2>
       <ul>
-        <li>CNPJ</li>
-        <li>Optin com Switch</li>
+        <li>
+          <Input label="CNPJ" id="cnpj" value={cnpj} onChange={changeField} />
+        </li>
+        <li>
+          <Input label="Optin com Switch" id="optin1" type="checkbox" />
+        </li>
       </ul>
       <ButtonNext onClick={customClick}>Continuar</ButtonNext>
     </>
   );
 };
-export default stepOne;
+
+function mapStateToProps(state) {
+  return {
+    cnpj: state.formUser.fields.cnpj,
+    razaoSocial: state.formUser.fields.razaoSocial,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    changeUserInfo(userInfo) {
+      const action = changeUserInfo(userInfo);
+      dispatch(action);
+    },
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(StepOne);

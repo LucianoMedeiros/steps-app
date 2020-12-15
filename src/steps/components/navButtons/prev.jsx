@@ -1,11 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
-import { changeStep } from "../../../store/actions/stepsActions";
+import React from 'react';
+import { connect } from 'react-redux';
+import { changeStep } from '../../../store/actions/stepsActions';
 
 const ButtonPrev = (props) => {
   const { step } = props;
+  const customClick = props.onClick || (() => true);
   function prevStep() {
-    props.changeStep(step - 1);
+    const ret = customClick();
+    if (ret) props.changeStep(step - 1);
   }
   return <button onClick={prevStep}>{props.children}</button>;
 };
