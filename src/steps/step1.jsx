@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { TextField, Switch, FormControl, FormControlLabel } from '@material-ui/core';
 
 // External Handlers
-import { changeUserInfo } from '../store/actions/formUserActions';
+import { changeCnpjUserInfo } from '../store/actions/cnpjUserActions';
 
 // Components
 import Layout from './../layout'
@@ -14,7 +14,6 @@ const StepOne = (props) => {
 
   // Local States
   const [cnpj, setCnpj] = useState(props.cnpj);
-  const [razaoSocial, setRazao] = useState(props.razaoSocial);
   
   // Local Handlers
   const changeField = ({ target: { value } }) => {
@@ -22,7 +21,7 @@ const StepOne = (props) => {
   };
   
   function customClick() {
-    props.changeUserInfo({ cnpj, razaoSocial });
+    props.changeCnpjUserInfo({ cnpj });
     return true;
   }
 
@@ -44,14 +43,13 @@ const StepOne = (props) => {
 
 function mapStateToProps(state) {
   return {
-    cnpj: state.formUser.fields.cnpj,
-    razaoSocial: state.formUser.fields.razaoSocial,
+    cnpj: state.corpID.fields.cnpj,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    changeUserInfo(userInfo) {
-      const action = changeUserInfo(userInfo);
+    changeCnpjUserInfo(userInfo) {
+      const action = changeCnpjUserInfo(userInfo);
       dispatch(action);
     },
   };

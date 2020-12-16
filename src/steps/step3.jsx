@@ -1,46 +1,57 @@
+// External Libraries 
 import React, {useState} from "react";
+import { connect } from 'react-redux';
 import { TextField, FormControl, InputLabel, Select } from '@material-ui/core';
 
+// External Handlers
+import { changeAddressInfo } from '../store/actions/businessAddressUserActions';
+
+// Components
 import Layout from './../layout'
 import ButtonNext from "./components/navButtons/next";
 import ButtonPrev from "./components/navButtons/prev";
 
+
 const StepThree = (props) => {
 
   // Local States - Fields
-  const [storeName, setStoreName] = useState(props.storeName);
-  const [zipCode, setZipCode] = useState(props.zipCode);
-  const [street, setStreet] = useState(props.street);
-  const [number, setNumber] = useState(props.number);
+  const [storeName, setStoreName]   = useState(props.storeName);
+  const [zipCode, setZipCode]       = useState(props.zipCode);
+  const [street, setStreet]         = useState(props.street);
+  const [number, setNumber]         = useState(props.number);
   const [complement, setComplement] = useState(props.complement);
-  const [district, setDistrict] = useState(props.district);
-  const [city, setTelCity] = useState(props.city);
-  const [uf, setUf] = useState(props.uf);
+  const [district, setDistrict]     = useState(props.district);
+  const [city, setTelCity]          = useState(props.city);
+  const [uf, setUf]                 = useState(props.uf);
 
 
   // Local Handlers
   const changeField = ({ target: { id, value } }) => {
     switch (id) {
-      case 'storeName': setStoreName(value);                  break;
-      case 'zipCode':   setZipCode(value);        break;
-      case 'street':  setStreet(value); break;
-      case 'number':           setNumber(value);          break;
-      case 'complement':         setComplement(value);        break;
-      case 'district':       setDistrict(value);      break;
-      case 'city':    setTelCity(value);   break;
-      case 'uf':    setUf(value);   break;
+      case 'storeName':  setStoreName(value);   break;
+      case 'zipCode':    setZipCode(value);     break;
+      case 'street':     setStreet(value);      break;
+      case 'number':     setNumber(value);      break;
+      case 'complement': setComplement(value);  break;
+      case 'district':   setDistrict(value);    break;
+      case 'city':       setTelCity(value);     break;
+      case 'uf':         setUf(value);          break;
       default: console.log('default');
     }
   };
 
+  function customClick() {
+    props.changeAddressInfo({ storeName, zipCode, street, number, complement, district, city, uf });
+    return true;
+  }
 
   return (
     <Layout 
       header={<h1>Step 3</h1>} 
       footer={
         <>
-          <ButtonPrev>Voltar</ButtonPrev>
-          <ButtonNext>Continuar</ButtonNext>
+          <ButtonPrev onClick={customClick}>Voltar</ButtonPrev>
+          <ButtonNext onClick={customClick}>Continuar</ButtonNext>
         </>
       }
     >
@@ -69,16 +80,7 @@ const StepThree = (props) => {
         <li>
           <FormControl variant="outlined" size="small">
             <InputLabel htmlFor="uf">Estado</InputLabel>
-            <Select
-              native
-              // value={state.age}
-              // onChange={handleChange}
-              label="Estado"
-              inputProps={{
-                name: 'uf',
-                id: 'uf',
-              }}
-            >
+            <Select native value={uf} onChange={changeField} label="Estado" inputProps={{ id: 'uf' }} >
               <option aria-label="None" value="" />
               <option value={"SP"}>SP</option>
               <option value={"RJ"}>RJ</option>
@@ -92,4 +94,25 @@ const StepThree = (props) => {
     </Layout>
   );
 };
-export default StepThree;
+
+function mapStateToProps(state) {
+  return {
+    storeName: state.corpAddressInfo.fields.storeName,
+    zipCode: state.corpAddressInfo.fields.zipCode,
+    street: state.corpAddressInfo.fields.street,
+    number: state.corpAddressInfo.fields.number,
+    complement: state.corpAddressInfo.fields.complement,
+    district: state.corpAddressInfo.fields.district,
+    city: state.corpAddressInfo.fields.city,
+    uf: state.corpAddressInfo.fields.uf,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    changeAddressInfo(addressInfo) {
+      const action = changeAddressInfo(addressInfo);
+      dispatch(action);
+    },
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(StepThree);

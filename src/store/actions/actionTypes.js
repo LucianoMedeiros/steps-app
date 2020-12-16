@@ -1,2 +1,4 @@
 export const NEW_STEP = 'NEW_STEP';
-export const ADD_USER_INFO = 'ADD_USER_INFO';
+export const ADD_CNPJ_INFO = 'ADD_CNPJ_INFO';
+export const ADD_BUSINESS_INFO = 'ADD_BUSINESS_INFO';
+export const ADD_ADDRESS_INFO = 'ADD_ADDRESS_INFO';
