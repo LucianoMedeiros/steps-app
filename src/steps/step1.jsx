@@ -1,35 +1,44 @@
+// External Libraries 
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { TextField, Switch, FormControl, FormControlLabel } from '@material-ui/core';
 
-import ButtonNext from './components/navButtons/next';
-import Input from './components/fields/Input';
-
+// External Handlers
 import { changeUserInfo } from '../store/actions/formUserActions';
 
+// Components
+import Layout from './../layout'
+import ButtonNext from './components/navButtons/next';
+
 const StepOne = (props) => {
+
+  // Local States
   const [cnpj, setCnpj] = useState(props.cnpj);
   const [razaoSocial, setRazao] = useState(props.razaoSocial);
+  
+  // Local Handlers
   const changeField = ({ target: { value } }) => {
     setCnpj(value);
   };
-
+  
   function customClick() {
     props.changeUserInfo({ cnpj, razaoSocial });
     return true;
   }
+
   return (
-    <>
-      <h2>Step 1</h2>
-      <ul>
+    <Layout header={<h1>Step 1</h1>} footer={<ButtonNext onClick={customClick}>Continuar</ButtonNext>}>
+      <ul className="form-items">
         <li>
-          <Input label="CNPJ" id="cnpj" value={cnpj} onChange={changeField} />
+          <FormControl fullWidth>
+            <TextField id="cnpj" label="CNPJ" size="small" variant="outlined" required onChange={changeField} value={cnpj} />
+          </FormControl>
         </li>
         <li>
-          <Input label="Optin com Switch" id="optin1" type="checkbox" />
+          <FormControlLabel fullWidth control={ <Switch name="checkin" color="primary" /> } label="Optin com switch" labelPlacement="Start" />
         </li>
       </ul>
-      <ButtonNext onClick={customClick}>Continuar</ButtonNext>
-    </>
+    </Layout>
   );
 };
 

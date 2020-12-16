@@ -1,17 +1,28 @@
 import React from "react";
 import ButtonNext from "./components/navButtons/next";
 import ButtonPrev from "./components/navButtons/prev";
+import Layout from './../layout'
 
 const stepFive = (props) => {
   return (
-    <>
-      <h2>Step 5</h2>
-      <ul>
-        <li>Logomarca</li>
+    <Layout 
+      header={<h1>Step 5</h1>} 
+      footer={
+        <>
+          <ButtonPrev>Voltar</ButtonPrev>
+          <ButtonNext>Continuar</ButtonNext>
+        </>
+      }
+    >
+    <ul className="form-items">
+        <li>
+          <label htmlFor="">envie seu logo, ele será utilizado nas suas ofertas</label>
+          <input type="file" name="" id=""/>
+        </li>
+
       </ul>
-      <ButtonPrev>Voltar</ButtonPrev>
-      <ButtonNext>Continuar</ButtonNext>
-    </>
+      
+    </Layout>
   );
 };
 export default stepFive;

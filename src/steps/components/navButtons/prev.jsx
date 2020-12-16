@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { changeStep } from '../../../store/actions/stepsActions';
 
+import { Button } from '@material-ui/core';
+
 const ButtonPrev = (props) => {
   const { step } = props;
   const customClick = props.onClick || (() => true);
@@ -9,7 +11,7 @@ const ButtonPrev = (props) => {
     const ret = customClick();
     if (ret) props.changeStep(step - 1);
   }
-  return <button onClick={prevStep}>{props.children}</button>;
+  return <Button onClick={prevStep}>{props.children}</Button>;
 };
 
 function mapStateToProps(state) {
