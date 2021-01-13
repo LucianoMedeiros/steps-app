@@ -1,15 +1,22 @@
 import React from "react";
 import ButtonPrev from "./components/navButtons/prev";
+import Layout from './../layout'
 
 const stepSix = (props) => {
   return (
-    <>
-      <h2>Step 6</h2>
-      <ul>
+    <Layout 
+      header={<h1>Step 6</h1>} 
+      footer={
+        <>
+          <ButtonPrev>Voltar</ButtonPrev>
+        </>
+      }
+    >
+    <ul className="form-items">
         <li>Sucesso!</li>
       </ul>
-      <ButtonPrev>Voltar</ButtonPrev>
-    </>
+      
+    </Layout>
   );
 };
 export default stepSix;

@@ -1,21 +1,57 @@
-import React from "react";
-import ButtonNext from "./components/navButtons/next";
+// External Libraries 
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { TextField, Switch, FormControl, FormControlLabel } from '@material-ui/core';
 
-const stepOne = (props) => {
-  //Precisa retornar booleano para continuar
+// External Handlers
+import { changeCnpjUserInfo } from '../store/actions/cnpjUserActions';
+
+// Components
+import Layout from './../layout'
+import ButtonNext from './components/navButtons/next';
+
+const StepOne = (props) => {
+
+  // Local States
+  const [cnpj, setCnpj] = useState(props.cnpj);
+  
+  // Local Handlers
+  const changeField = ({ target: { value } }) => {
+    setCnpj(value);
+  };
+  
   function customClick() {
-    console.log("uuuuuuuuu");
+    props.changeCnpjUserInfo({ cnpj });
     return true;
   }
+
   return (
-    <>
-      <h2>Step 1</h2>
-      <ul>
-        <li>CNPJ</li>
-        <li>Optin com Switch</li>
+    <Layout header={<h1>Step 1</h1>} footer={<ButtonNext onClick={customClick}>Continuar</ButtonNext>}>
+      <ul className="form-items">
+        <li>
+          <FormControl fullWidth>
+            <TextField id="cnpj" label="CNPJ" size="small" variant="outlined" required onChange={changeField} value={cnpj} />
+          </FormControl>
+        </li>
+        <li>
+          <FormControlLabel fullWidth control={ <Switch name="checkin" color="primary" /> } label="Optin com switch" labelPlacement="Start" />
+        </li>
       </ul>
-      <ButtonNext onClick={customClick}>Continuar</ButtonNext>
-    </>
+    </Layout>
   );
 };
-export default stepOne;
+
+function mapStateToProps(state) {
+  return {
+    cnpj: state.corpID.fields.cnpj,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    changeCnpjUserInfo(userInfo) {
+      const action = changeCnpjUserInfo(userInfo);
+      dispatch(action);
+    },
+  };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(StepOne);
