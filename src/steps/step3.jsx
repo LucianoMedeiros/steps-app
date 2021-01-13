@@ -78,7 +78,7 @@ const StepThree = (props) => {
           <TextField id="city" label="Cidade" size="small" variant="outlined" value={city} onChange={changeField} fullWidth required />
         </li>  
         <li>
-          <FormControl variant="outlined" size="small">
+          <FormControl variant="outlined" size="small" fullWidth>
             <InputLabel htmlFor="uf">Estado</InputLabel>
             <Select native value={uf} onChange={changeField} label="Estado" inputProps={{ id: 'uf' }} >
               <option aria-label="None" value="" />

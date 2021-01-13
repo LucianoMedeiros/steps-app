@@ -37,7 +37,6 @@ const StepFour = (props) => {
     return true;
   }
 
-
   return (
     <Layout 
       header={<h1>Step 4</h1>} 
