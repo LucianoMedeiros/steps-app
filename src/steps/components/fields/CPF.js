@@ -6,7 +6,7 @@ const CPF = (props) => {
     const [currentMessage, setCurrentMessage] = useState();
     const [value, setValue] = useState(props.value);
     const [invalid, setInvalid] = useState(false);
-    const [requiredSymbol, setRequiredSymbol] = useState( props.required ? props.requiredSymbol || '*' : '' );
+    const [requiredSymbol, setRequiredSymbol] = useState(props.required ? props.requiredSymbol || '*' : '');
 
     const [errorMessages, setErrorMessages] = useState({
         invalid: props.invalidMessage || `Número de ${props.label} inválido.`,
@@ -14,8 +14,9 @@ const CPF = (props) => {
         valid: props.validMessage || '',
     });
 
-    const onChange = ({ target: { value } }) => {
-        setValue(maskCPF( value ));
+    const onChange = (e) => {
+        setValue(maskCPF(e.target.value));
+        props.onChange(e);
     }
     const onBlur = ({ target: { value } }) => {
         // incompleto
@@ -26,7 +27,7 @@ const CPF = (props) => {
         // vazio
         if (value.length === 0) {
             if (props.required) {
-                setInvalid(true);   
+                setInvalid(true);
                 setCurrentMessage(errorMessages.required);
             }
             else {
@@ -37,7 +38,7 @@ const CPF = (props) => {
         }
         if (value.length === 14) {
             const ret = validateCPF(value);
-            if(ret) {
+            if (ret) {
                 setInvalid(false);
                 setCurrentMessage(errorMessages.valid);
             }
@@ -50,30 +51,30 @@ const CPF = (props) => {
 
     return (
         <FormControl fullWidth>
-            <TextField 
-                id={ props.id }
-                name={ props.name || props.id }
-                className={ props.className } 
-                value={ value }
-                style={ props.style }
+            <TextField
+                id={props.id}
+                name={props.name || props.id}
+                className={props.className}
+                value={value}
+                style={props.style}
 
-                label={ (props.label + ' ' + requiredSymbol ) || 'CPF' } 
-                variant={ props.variant || "outlined" }
-                size={ props.size || 'small' } 
+                label={(props.label + ' ' + requiredSymbol) || 'CPF'}
+                variant={props.variant || "outlined"}
+                size={props.size || 'small'}
 
-                error={ invalid }
-                helperText={ currentMessage }
-                required={ props.required }
+                error={invalid}
+                helperText={currentMessage}
+                required={props.required}
 
-                onBlur={ onBlur }
+                onBlur={onBlur}
 
-                onChange={ props.onChange, onChange }
-                disabled={ props.disabled }                
+                onChange={onChange}
+                disabled={props.disabled}
 
-                aria-label={ props.ariaLabel }                
-                tabIndex={ props.tabIndex }                
+                aria-label={props.ariaLabel}
+                tabIndex={props.tabIndex}
 
-                />
+            />
         </FormControl>
     )
 }

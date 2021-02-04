@@ -6,7 +6,7 @@ const CNPJ = (props) => {
     const [currentMessage, setCurrentMessage] = useState();
     const [value, setValue] = useState(props.value);
     const [invalid, setInvalid] = useState(false);
-    const [requiredSymbol, setRequiredSymbol] = useState( props.required ? props.requiredSymbol || '*' : '' );
+    const [requiredSymbol, setRequiredSymbol] = useState(props.required ? props.requiredSymbol || '*' : '');
 
     const [errorMessages, setErrorMessages] = useState({
         invalid: props.invalidMessage || `Número de ${props.label} inválido.`,
@@ -14,8 +14,9 @@ const CNPJ = (props) => {
         valid: props.validMessage || '',
     });
 
-    const onChange = ({ target: { value } }) => {
-        setValue(maskCNPJ( value ));
+    const onChange = (e) => {
+        setValue(maskCNPJ(e.target.value));
+        props.onChange(e);
     }
     const onBlur = ({ target: { value } }) => {
         // incompleto
@@ -26,7 +27,7 @@ const CNPJ = (props) => {
         // vazio
         if (value.length === 0) {
             if (props.required) {
-                setInvalid(true);   
+                setInvalid(true);
                 setCurrentMessage(errorMessages.required);
             }
             else {
@@ -37,7 +38,7 @@ const CNPJ = (props) => {
         }
         if (value.length === 18) {
             const ret = validateCNPJ(value);
-            if(ret) {
+            if (ret) {
                 setInvalid(false);
                 setCurrentMessage(errorMessages.valid);
             }
@@ -50,29 +51,29 @@ const CNPJ = (props) => {
 
     return (
         <FormControl fullWidth>
-            <TextField 
-                id={ props.id }
-                name={ props.name || props.id }
-                className={ props.className } 
-                style={ props.style }
-                
-                label={ (props.label + ' ' + requiredSymbol ) || 'CNPJ' } 
-                variant={ props.variant || "outlined" }
-                size={ props.size || 'small' } 
-                
-                error={ invalid }
-                helperText={ currentMessage }
-                required={ props.required }
-                disabled={ props.disabled }                
-                
-                onBlur={ onBlur }
-                onChange={ props.onChange, onChange }
-                value={ value }
-                
-                aria-label={ props.ariaLabel }                
-                tabIndex={ props.tabIndex }                
+            <TextField
+                id={props.id}
+                name={props.name || props.id}
+                className={props.className}
+                style={props.style}
 
-                />
+                label={(props.label + ' ' + requiredSymbol) || 'CNPJ'}
+                variant={props.variant || "outlined"}
+                size={props.size || 'small'}
+
+                error={invalid}
+                helperText={currentMessage}
+                required={props.required}
+                disabled={props.disabled}
+
+                onBlur={onBlur}
+                onChange={onChange}
+                value={value}
+
+                aria-label={props.ariaLabel}
+                tabIndex={props.tabIndex}
+
+            />
         </FormControl>
     )
 }

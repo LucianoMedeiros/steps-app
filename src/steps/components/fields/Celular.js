@@ -6,7 +6,7 @@ const Celular = (props) => {
     const [currentMessage, setCurrentMessage] = useState();
     const [value, setValue] = useState(props.value);
     const [invalid, setInvalid] = useState(false);
-    const [requiredSymbol, setRequiredSymbol] = useState( props.required ? props.requiredSymbol || '*' : '' );
+    const [requiredSymbol, setRequiredSymbol] = useState(props.required ? props.requiredSymbol || '*' : '');
 
     const [errorMessages, setErrorMessages] = useState({
         invalid: props.invalidMessage || `Número de ${props.label} inválido.`,
@@ -14,13 +14,13 @@ const Celular = (props) => {
         valid: props.validMessage || '',
     });
 
-    const aaa = props.required ? {required:true} : '';
+    const attrs = props.required ? { required: true } : '';
 
-    const onChange = ({ target: { value } }) => {
-        if (value.length >= 0 && value.length < 16) {
-            setValue(maskCelular( value ));
+    const onChange = (e) => {
+        if (e.target.value.length >= 0 && e.target.value.length < 16) {
+            setValue(maskCelular(e.target.value));
         }
-        if (value[5] != 9) {
+        if (e.target.value[5] != 9) {
             setInvalid(true);
             setCurrentMessage(errorMessages.invalid);
         }
@@ -28,6 +28,7 @@ const Celular = (props) => {
             setInvalid(false);
             setCurrentMessage(errorMessages.valid);
         }
+        props.onChange(e);
     }
     const onBlur = ({ target: { value } }) => {
         // incompleto
@@ -38,7 +39,7 @@ const Celular = (props) => {
         // vazio
         if (value.length === 0) {
             if (props.required) {
-                setInvalid(true);   
+                setInvalid(true);
                 setCurrentMessage(errorMessages.required);
             }
             else {
@@ -59,37 +60,37 @@ const Celular = (props) => {
 
     return (
         <FormControl fullWidth>
-            <TextField 
-                id={ props.id }
-                name={ props.name || props.id }
-                className={ props.className } 
-                style={ props.style }
-                
-                label={ (props.label + ' ' + requiredSymbol ) || 'Celular' } 
-                variant={ props.variant || "outlined" }
-                size={ props.size || 'small' } 
-                
-                error={ invalid }
-                helperText={ currentMessage }
-                { ...aaa }
-                disabled={ props.disabled }                
-                
-                onBlur={ onBlur }
-                onChange={ props.onChange, onChange }
-                value={ value }
-                
-                aria-label={ props.ariaLabel }                
-                tabIndex={ props.tabIndex }                
+            <TextField
+                id={props.id}
+                name={props.name || props.id}
+                className={props.className}
+                style={props.style}
 
-                />
+                label={(props.label + ' ' + requiredSymbol) || 'Celular'}
+                variant={props.variant || "outlined"}
+                size={props.size || 'small'}
+
+                error={invalid}
+                helperText={currentMessage}
+                {...attrs}
+                disabled={props.disabled}
+
+                onBlur={onBlur}
+                onChange={onChange}
+                value={value}
+
+                aria-label={props.ariaLabel}
+                tabIndex={props.tabIndex}
+
+            />
         </FormControl>
     )
 }
 
 const maskCelular = (v) => {
-    v=v.replace(/\D/g,''); //Remove tudo o que não é dígito
-    v=v.replace(/^(\d{2})(\d)/g,'($1) $2'); //Coloca parênteses em volta dos dois primeiros dígitos
-    v=v.replace(/(\d)(\d{4})$/,'$1-$2'); //Coloca hífen entre o quarto e o quinto dígitos
-    return v.substring(0,15);
+    v = v.replace(/\D/g, ''); //Remove tudo o que não é dígito
+    v = v.replace(/^(\d{2})(\d)/g, '($1) $2'); //Coloca parênteses em volta dos dois primeiros dígitos
+    v = v.replace(/(\d)(\d{4})$/, '$1-$2'); //Coloca hífen entre o quarto e o quinto dígitos
+    return v.substring(0, 15);
 }
 export default Celular;
