@@ -16,6 +16,7 @@ const CEP = (props) => {
 
     const onChange = (e) => {
         setValue(maskCEP(e.target.value));
+        e.target.value = maskCEP(e.target.value);
         props.onChange(e);
     }
     const onBlur = ({ target: { value } }) => {

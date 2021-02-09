@@ -17,8 +17,9 @@ const Telefone = (props) => {
     const aaa = props.required ? { required: true } : '';
 
     const onChange = (e) => {
-        if (value.length >= 0 && value.length < 15) {
+        if (e.target.value.length >= 0 && e.target.value.length < 15) {
             setValue(maskTelefone(e.target.value));
+            e.target.value = maskTelefone(e.target.value);
         }
         props.onChange(e);
     }

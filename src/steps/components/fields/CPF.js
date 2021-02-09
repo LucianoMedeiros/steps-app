@@ -16,6 +16,7 @@ const CPF = (props) => {
 
     const onChange = (e) => {
         setValue(maskCPF(e.target.value));
+        e.target.value = maskCPF(e.target.value);
         props.onChange(e);
     }
     const onBlur = ({ target: { value } }) => {

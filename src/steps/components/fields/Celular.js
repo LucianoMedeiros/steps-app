@@ -28,6 +28,7 @@ const Celular = (props) => {
             setInvalid(false);
             setCurrentMessage(errorMessages.valid);
         }
+        e.target.value = maskCelular(e.target.value);
         props.onChange(e);
     }
     const onBlur = ({ target: { value } }) => {
