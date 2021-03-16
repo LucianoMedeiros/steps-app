@@ -10,6 +10,7 @@ import { changeBusinessStoreInfo } from '../store/actions/businessInfoStoreActio
 import Layout from './../layout'
 import ButtonNext from "./components/navButtons/next";
 import ButtonPrev from "./components/navButtons/prev";
+import { Url } from './components/fields'
 
 const StepFour = (props) => {
 
@@ -86,7 +87,7 @@ const StepFour = (props) => {
           />
         </li>
         <li>
-          <TextField name="urlEcommerce" label="Qual é o endereço dela?" size="small" variant="outlined" value={urlEcommerce} onChange={changeField} fullWidth />
+          <Url id="urlEcommerce" label="Qual é o endereço dela?" value={ urlEcommerce } onChange={ changeField } required requiredMessage={"Este campo é obrigatório."} />
         </li>
         <li>
           <FormControl component="fieldset">

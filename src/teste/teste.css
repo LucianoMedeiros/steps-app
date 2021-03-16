@@ -1,0 +1,17 @@
+.digito {
+    border: 1px solid #777;
+    width: 50px;
+    height: 50px;
+    font-family: "monospace";
+    font-size: 30px;
+    text-align: center;
+    background-color: #ccc;
+}
+.digito:focus,
+.digito.valid {
+    background-color: white;
+    outline-color: orange;
+    border: 2px solid orange;
+    border-radius: 0;
+}
+

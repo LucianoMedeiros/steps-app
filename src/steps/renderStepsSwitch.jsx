@@ -21,7 +21,8 @@ const renderStepsSwitch = (props) => {
       default: return <Step1 />;
     }
   };
-  return <>{renderSwitch()}</>;
+
+  return <form method="post">{renderSwitch()}</form>;
 };
 
 function mapStateToProps(state) {

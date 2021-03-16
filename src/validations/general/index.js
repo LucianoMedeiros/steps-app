@@ -29,3 +29,7 @@ export const verifyCellphone = (v) => {
     if(r === 9) return true;
     else return false;
 }
+
+export const required = (v) => {}
+export const minLength = (v, min) => {}
+export const maxLength = (v, max) => {}

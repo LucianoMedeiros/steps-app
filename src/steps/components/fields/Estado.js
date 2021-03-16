@@ -1,6 +1,6 @@
 // External Libraries 
 import React, { useState } from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField, MenuItem, InputLabel, FormControl, Select } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 
 const Estado = (props) => {
@@ -14,8 +14,24 @@ const Estado = (props) => {
         valid: props.validMessage || '',
     });
 
+    const renderDivisionOptions = () => {
+        return UF_List.map((option, i) => {
+            return (
+                <MenuItem
+                    key={i}
+                    id={option.id}
+                    value={props.abbreviation ? option.abbreviation : option.name}
+                >
+                    { props.abbreviation ? option.abbreviation : option.name}
+                </MenuItem>
+            );
+        });
+    }
+
     const onChange = (e) => {
-        setValue(e.target.textContent);
+        setValue(e.target.value);
+        console.log(e.target);
+        // e.target.id = e.target.id.split('-')[0];
         props.onChange(e);
     }
     const onBlur = ({ target: { value } }) => {
@@ -37,35 +53,50 @@ const Estado = (props) => {
         }
     }
     return (
-        <Autocomplete
-            id={props.id}
-            name={props.name || props.id}
-            className={props.className}
-            style={props.style}
-            value={value}
+        <FormControl fullWidth size={'small'}>
+            <InputLabel id="uf-label">Estado</InputLabel>
+            <Select
+                labelId="uf-label"
+                id={props.id}
+                name={props.name || props.id}
+                value={props.value}
+                variant={props.variant || 'outlined'}
+                onChange={onChange}
+                onBlur={onBlur}
 
-            options={UF_List}
-            disabled={props.disabled}
-            getOptionLabel={(option) => option.name}
-            renderOption={(option) => (
-                <React.Fragment>
-                    { props.abbreviation ? option.abbreviation : option.name}
-                </React.Fragment>
-            )}
-            onChange={onChange}
-            onBlur={onBlur}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label={(props.label + ' ' + requiredSymbol) || 'Escolha o estado'}
-                    variant={props.variant || "outlined"}
-                    size={props.size || 'small'}
-                    error={invalid}
-                    helperText={currentMessage}
-                    disabled={props.disabled}
-                />
-            )}
-        />
+            >
+                {renderDivisionOptions()}
+            </Select>
+        </FormControl>
+        // <Autocomplete
+        //     id={props.id}
+        //     name={props.name || props.id}
+        //     className={props.className}
+        //     style={props.style}
+        //     value={value}
+
+        //     options={UF_List}
+        //     disabled={props.disabled}
+        //     getOptionLabel={(option) => option.name}
+        //     renderOption={(option) => (
+        //         <React.Fragment>
+        //             { props.abbreviation ? option.abbreviation : option.name}
+        //         </React.Fragment>
+        //     )}
+        //     onChange={onChange}
+        //     onBlur={onBlur}
+        //     renderInput={(params) => (
+        //         <TextField
+        //             {...params}
+        //             label={(props.label + ' ' + requiredSymbol) || 'Escolha o estado'}
+        //             variant={props.variant || "outlined"}
+        //             size={props.size || 'small'}
+        //             error={invalid}
+        //             helperText={currentMessage}
+        //             disabled={props.disabled}
+        //         />
+        //     )}
+        // />
     )
 }
 
